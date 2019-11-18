@@ -30,7 +30,9 @@ type GuestBook struct {
 }
 
 func main() {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	fmt.Printf("GREETING : %s \n", os.Getenv("DEMO_GREETING"))
+	clientOptions := options.Client().ApplyURI(os.Getenv("DATABASE_URL"))
+	//clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
@@ -46,7 +48,7 @@ func main() {
 
 	fmt.Println("Connected to MongoDB!")
 
-	coll := client.Database("local").Collection("persons")
+	coll := client.Database("guestbook").Collection("guestbook")
 
 	r := gin.Default()
 	config := cors.DefaultConfig()
